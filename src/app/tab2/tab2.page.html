@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 2
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  
+  <form (ngSubmit)="addItem()">
+    <ion-item>
+      <ion-label>Items</ion-label>
+      <ion-input type="text"[(ngModel)]="item"name="item"></ion-input>  
+      </ion-item>
+      <ion-button type="submit" expand="block" >
+        Añadir Item
+      </ion-button>
+  </form>
+</ion-content>
