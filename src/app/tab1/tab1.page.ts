@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { AlertController, MenuController } from '@ionic/angular';
 import { ShoppingItemService } from '../services/shopping-item.service';
-import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -9,27 +9,58 @@ import { AlertController } from '@ionic/angular';
 export class Tab1Page {
   constructor(
     public shoppingService: ShoppingItemService,
-    public alertController: AlertController
-    
+    private alertController: AlertController,
+    private menuController: MenuController
   ) {}
   async removeItem(item: string){
-    const alert = await this.alertController.create({
-      header: 'Confirmacion',
-      message: '¿Seguro que quieres eliminar el elemento?',
-      buttons: [
-        {
-          text: 'Si',
-          handler: (blah) => {
-            this.shoppingService.removeItem(item);
+      const alert = await this.alertController.create({
+        header: 'Confirmacion',
+        message: '¿Seguro que quieres eliminar el elemento?',
+        buttons: [
+          {
+            text: 'Si',
+            handler: (blah) => {
+              this.shoppingService.removeItem(item);
+            }
+          }, {
+            text: 'No',
+            handler: () => {
+              alert. dismiss();
+            }
           }
-        }, {
-          text: 'No',
-          handler: () => {
-            alert. dismiss();
-          }
-        }
-      ]
-    });
-    await alert.present();
-   }
+        ]
+      });
+      await alert.present();
     }
+    onRenderItems($event){
+      console.log($event);
+      const item = this.shoppingService.items.splice($event.detail.from, 1)[0];
+      this.shoppingService.items.splice($event.detail.to, 0, item);
+      $event.detail.complete();
+      console.log(this.shoppingService.items);
+    }
+    async removeAll(){
+      const alert = await this.alertController.create({
+        header: 'Confirmacion',
+        message: '¿Seguro que quieres eliminar el elemento?',
+        buttons: [
+          {
+            text: 'Si',
+            handler: (blah) => {
+              this.shoppingService.removeAllitems();
+              this.menuController.close()
+            }
+          }, {
+            text: 'No',
+            handler: () => {
+              alert. dismiss();
+              this.menuController.close()
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+  }
+
+    

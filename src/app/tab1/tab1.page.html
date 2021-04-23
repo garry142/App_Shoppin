@@ -1,20 +1,38 @@
+<<ion-menu side="end"  content-id="content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item (click)="removeAll()" [disabled]="shoppingService.isEmpty">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        <ion-label>Eliminar todos los elementos</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Mi lista de compra
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" id="content">
   <ion-item class="ion-text-center" lines="none" *ngIf="shoppingService.isEmpty">
     <ion-label>No hay items en tu lista</ion-label>
   </ion-item>
   <ion-list *ngIf="!shoppingService.isEmpty">
-    <ion-list>
+    <ion-reorder-group disabled="false" (ionItemReorder)="onRenderItems($event)">
       <ion-item-sliding *ngFor="let item of shoppingService.items">
         <ion-item >
           <ion-label>{{item}}</ion-label>
+          <ion-reorder></ion-reorder>
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="removeItem(item)">
@@ -22,6 +40,6 @@
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding> 
-    </ion-list>
+    </ion-reorder-group>
   </ion-list>
 </ion-content>
