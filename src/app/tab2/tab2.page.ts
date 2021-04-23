@@ -44,7 +44,7 @@ async presentAlertMultipleButtons() {
 }
 async alertErorr() {
   const alert = await this.alertController.create({
-    header: 'error',
+    header: 'Error',
     message: 'Debes ingresar',
     buttons: ['Ok']
   });
@@ -53,7 +53,7 @@ async alertErorr() {
 }
 async alertexistent() {
   const alert = await this.alertController.create({
-    header: 'error',
+    header: 'Error',
     message: 'El item ya Existe',
     buttons: ['Ok']
   });
